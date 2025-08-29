@@ -23,6 +23,13 @@ class Scrapping:
 
     def _make_request(self, url: str, params: Optional[Dict] = None) -> Optional[requests.Response]:
         try:
+            if params is None:
+                params = {} 
+
+            # choose your condition params for search query scrapping in url
+            # params['result_type'] = 'relevansi' 
+            params['result_type'] = 'latest'
+            
             response = self.session.get(url, params=params, timeout=10)
             response.raise_for_status()
             return response
@@ -184,7 +191,7 @@ class Scrapping:
         print(f"\n=== Search Results (showing first {min(limit, len(results))} of {len(results)}) ===")
         
         for i, article in enumerate(results[:limit], 1):
-            print(f"\n--- Article {i} ---")
+            print(f"\n--- Article {i} ---") 
             print(f"Title: {article['title']}")
             print(f"Image URL: {article['image_link']}")
             print(f"Body Text: {article['body_text'][:200]}..." if len(article['body_text']) > 200 else f"Body Text: {article['body_text']}")
